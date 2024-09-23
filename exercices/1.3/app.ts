@@ -15,11 +15,11 @@ let DeleteCounterFilms = 0;
 app.use((_req, _res, next) => {
     if (_req.method === "GET" && _req.originalUrl === "/") {
         GetCounter++;
-    } else if (_req.method === "GET" && _req.originalUrl === "/films") {
+    } else if (_req.method === "GET" && _req.originalUrl.split("/")[1] === "films") {
         GetCounterFilms++;
-    } else if (_req.method === "POST") {
+    } else if (_req.method === "POST" && _req.originalUrl.split("/")[1] === "films") {
         PostCounterFilms++;
-    } else if (_req.method === "DELETE") {
+    } else if (_req.method === "DELETE" && _req.originalUrl.split("/")[1] === "films") {
         DeleteCounterFilms++;
     }
 
