@@ -47,29 +47,65 @@ router.get("/", (req, res) => {
 		return res.sendStatus(400);
 	}
 
-	const orderByTitle =
-		typeof req.query.order === "string" && req.query.order.includes("title")
+	if (req.query["minimum-duration"] && typeof req.query["minimum-duration"] !== "string") {
+		return res.sendStatus(400);
+	}
+
+	if (req.query.search && typeof req.query.search !== "string") {
+		return res.sendStatus(400);
+	}
+
+	const orderBy =
+		typeof req.query.order === "string" && (
+			req.query.order.includes("title") || req.query.order.includes("-title") ||
+			req.query.order.includes("director") || req.query.order.includes("-director") ||
+			req.query.order.includes("duration") || req.query.order.includes("-duration") ||
+			req.query.order.includes("budget") || req.query.order.includes("-budget") ||
+			req.query.order.includes("description") || req.query.order.includes("-description") ||
+			req.query.order.includes("imageUrl") || req.query.order.includes("-imageUrl"))
 			? req.query.order
 			: undefined;
 
 	const minimumDuration =
 		typeof req.query["minimum-duration"] === "string" && !isNaN(parseInt(req.query["minimum-duration"])) ? parseInt(req.query["minimum-duration"]) : undefined;
 
+	const searchedFilms = typeof req.query.search === "string" ? req.query.search : undefined;
+
 	let orderedFilms: Film[] = [...defaultFilms];
-	let minimumDurationFilms: Film[] = [];
-	if (orderByTitle)
-		orderedFilms = orderedFilms.sort((a, b) => a.title.localeCompare(b.title));
-
-	if (orderByTitle === "-title") orderedFilms = orderedFilms.reverse();
-
-	if (minimumDuration) {
-		minimumDurationFilms = defaultFilms.filter(film => film.duration >= minimumDuration);
+	let listFilms: Film[] = [];
+	if (orderBy) {
+		if (orderBy.startsWith("-")) {
+			const order = orderBy.slice(1);
+			orderedFilms = orderedFilms.sort((a, b) => {
+				const aValue = a[order as keyof Film];
+				const bValue = b[order as keyof Film];
+				if (typeof aValue === "number" && typeof bValue === "number") {
+					return bValue - aValue;
+				} else {
+					return (aValue as string).localeCompare(bValue as string);
+				}
+			});
+		} else {
+			orderedFilms = orderedFilms.sort((a, b) => {
+				const aValue = a[orderBy as keyof Film];
+				const bValue = b[orderBy as keyof Film];
+				if (typeof aValue === "number" && typeof bValue === "number") {
+					return aValue - bValue;
+				} else {
+					return (aValue as string).localeCompare(bValue as string);
+				}
+			});
+		}
+	} else if (minimumDuration) {
+		listFilms = defaultFilms.filter(film => film.duration >= minimumDuration);
+	} else if (searchedFilms) {
+		listFilms = defaultFilms.filter(film => film.title.toLowerCase().includes(searchedFilms.toLowerCase()));
 	}
 
-	if (orderByTitle) {
+	if (orderBy) {
 		return res.json(orderedFilms);
-	} else if (minimumDuration) {
-		return res.json(minimumDurationFilms);
+	} else if (minimumDuration || searchedFilms) {
+		return res.json(listFilms);
 	} else {
 		return res.json(defaultFilms);
 	}
