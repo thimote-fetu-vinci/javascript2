@@ -40,6 +40,14 @@ Content-Type: application/json
     "title": "The Lord of the Rings: The Fellowship of the Ring"
 }
 
+### PATCH a film with a wrong element
+PATCH {{baseUrl}}/films/1
+Content-Type: application/json
+
+{
+    "wrong": "The Lord of the Rings: The Fellowship of the Ring"
+}
+
 ### PUT an existing film
 PUT {{baseUrl}}/films/1
 Content-Type: application/json

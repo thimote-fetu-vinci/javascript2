@@ -125,10 +125,13 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
+	const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
 	const body: unknown = req.body;
+
 	if (
 		!body ||
 		typeof body !== "object" ||
+		Object.keys(body).some(key => !allowedProperties.includes(key)) ||
 		!("title" in body) ||
 		!("director" in body) ||
 		!("duration" in body) ||
@@ -181,13 +184,14 @@ router.delete("/:id", (req, res) => {
 router.patch("/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const film = defaultFilms.find(film => film.id === id);
+	const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
 
 	if (!film) {
 		return res.sendStatus(404);
 	}
 
 	const body: unknown = req.body;
-	if (!body || typeof body !== "object") {
+	if (!body || typeof body !== "object" || Object.keys(body).some(key => !allowedProperties.includes(key))) {
 		return res.sendStatus(400);
 	}
 
@@ -241,12 +245,14 @@ router.patch("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
 	const id = parseInt(req.params.id);
 	const film = defaultFilms.find(film => film.id === id);
+	const allowedProperties = ["title", "director", "duration", "budget", "description", "imageUrl"];
 
 	if (!film) {
 		const body: unknown = req.body;
 		if (
 			!body ||
 			typeof body !== "object" ||
+			Object.keys(body).some(key => !allowedProperties.includes(key)) ||
 			!("title" in body) ||
 			!("director" in body) ||
 			!("duration" in body) ||
@@ -286,7 +292,7 @@ router.put("/:id", (req, res) => {
 		return res.json(newFilm);
 	} else {
 		const body: unknown = req.body;
-		if (!body || typeof body !== "object") {
+		if (!body || typeof body !== "object" || Object.keys(body).some(key => !allowedProperties.includes(key))) {
 			return res.sendStatus(400);
 		}
 
