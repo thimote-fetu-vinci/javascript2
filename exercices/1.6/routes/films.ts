@@ -137,8 +137,9 @@ router.post("/", (req, res) => {
 		typeof body.duration !== "number" ||
 		!body.title.trim() ||
 		!body.director.trim() ||
-		body.duration <= 0
-	) {
+		body.duration <= 0 ||
+		("budget" in body && (typeof body.budget !== "number" || body.budget <= 0))
+		) {
 		return res.sendStatus(400);
 	}
 
@@ -165,6 +166,176 @@ router.post("/", (req, res) => {
 
 	defaultFilms.push(newFilm);
 	return res.json(newFilm);
+});
+
+router.delete("/:id", (req, res) => {
+	const id = parseInt(req.params.id);
+	const index = defaultFilms.findIndex(film => film.id === id);
+	if (index === -1) {
+		return res.sendStatus(404);
+	}
+	defaultFilms.splice(index, 1);
+	return res.sendStatus(204);
+});
+
+router.patch("/:id", (req, res) => {
+	const id = parseInt(req.params.id);
+	const film = defaultFilms.find(film => film.id === id);
+
+	if (!film) {
+		return res.sendStatus(404);
+	}
+
+	const body: unknown = req.body;
+	if (!body || typeof body !== "object") {
+		return res.sendStatus(400);
+	}
+
+	const { title, director, duration, budget, description, imageUrl } = body as Partial<NewFilm>;
+
+	if (title !== undefined) {
+		if (typeof title !== "string" || !title.trim()) {
+			return res.sendStatus(400);
+		}
+		film.title = title;
+	}
+
+	if (director !== undefined) {
+		if (typeof director !== "string" || !director.trim()) {
+			return res.sendStatus(400);
+		}
+		film.director = director;
+	}
+
+	if (duration !== undefined) {
+		if (typeof duration !== "number" || duration <= 0) {
+			return res.sendStatus(400);
+		}
+		film.duration = duration;
+	}
+
+	if (budget !== undefined) {
+		if (typeof budget !== "number" || budget <= 0) {
+			return res.sendStatus(400);
+		}
+		film.budget = budget;
+	}
+
+	if (description !== undefined) {
+		if (typeof description !== "string") {
+			return res.sendStatus(400);
+		}
+		film.description = description;
+	}
+
+	if (imageUrl !== undefined) {
+		if (typeof imageUrl !== "string") {
+			return res.sendStatus(400);
+		}
+		film.imageUrl = imageUrl;
+	}
+
+	return res.json(film);
+});
+
+router.put("/:id", (req, res) => {
+	const id = parseInt(req.params.id);
+	const film = defaultFilms.find(film => film.id === id);
+
+	if (!film) {
+		const body: unknown = req.body;
+		if (
+			!body ||
+			typeof body !== "object" ||
+			!("title" in body) ||
+			!("director" in body) ||
+			!("duration" in body) ||
+			typeof body.title !== "string" ||
+			typeof body.director !== "string" ||
+			typeof body.duration !== "number" ||
+			!body.title.trim() ||
+			!body.director.trim() ||
+			body.duration <= 0 ||
+			("budget" in body && (typeof body.budget !== "number" || body.budget <= 0))
+		) {
+			return res.sendStatus(400);
+		}
+
+		const { title, director, duration, budget, description, imageUrl } = body as NewFilm;
+
+		for (const film of defaultFilms) {
+			if (film.title === title && film.director === director) {
+				return res.sendStatus(409);
+			}
+		}
+
+		const nextId =
+			defaultFilms.reduce((maxId, film) => (film.id > maxId ? film.id : maxId), 0) + 1;
+
+		const newFilm: Film = {
+			id: nextId,
+			title,
+			director,
+			duration,
+			budget,
+			description,
+			imageUrl
+		};
+
+		defaultFilms.push(newFilm);
+		return res.json(newFilm);
+	} else {
+		const body: unknown = req.body;
+		if (!body || typeof body !== "object") {
+			return res.sendStatus(400);
+		}
+
+		const { title, director, duration, budget, description, imageUrl } = body as Partial<NewFilm>;
+
+		if (title !== undefined) {
+			if (typeof title !== "string" || !title.trim()) {
+				return res.sendStatus(400);
+			}
+			film.title = title;
+		}
+
+		if (director !== undefined) {
+			if (typeof director !== "string" || !director.trim()) {
+				return res.sendStatus(400);
+			}
+			film.director = director;
+		}
+
+		if (duration !== undefined) {
+			if (typeof duration !== "number" || duration <= 0) {
+				return res.sendStatus(400);
+			}
+			film.duration = duration;
+		}
+
+		if (budget !== undefined) {
+			if (typeof budget !== "number" || budget <= 0) {
+				return res.sendStatus(400);
+			}
+			film.budget = budget;
+		}
+
+		if (description !== undefined) {
+			if (typeof description !== "string") {
+				return res.sendStatus(400);
+			}
+			film.description = description;
+		}
+
+		if (imageUrl !== undefined) {
+			if (typeof imageUrl !== "string") {
+				return res.sendStatus(400);
+			}
+			film.imageUrl = imageUrl;
+		}
+
+		return res.json(film);
+	}
 });
 
 export default router;
