@@ -1,0 +1,70 @@
+### The url of the API
+@baseUrl = http://localhost:3000
+
+### Get all films
+GET {{baseUrl}}/films
+
+### Get films ordered by title
+GET {{baseUrl}}/films?order=-title
+
+### Get films over the minimal duration
+GET {{baseUrl}}/films?minimum-duration=150
+
+### Get film by ID
+GET {{baseUrl}}/films/1
+
+### Create a film
+POST {{baseUrl}}/films
+Content-Type: application/json
+
+{
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "director": "Peter Jackson",
+    "duration": 178,
+    "budget": 93000000,
+    "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+    "imageUrl": "https://www.imdb.com/title/tt0120737/mediaviewer/rm4263220224"
+}
+
+### Filter films by letter
+GET {{baseUrl}}/films?search=e
+
+### Get films ordered by duration
+GET {{baseUrl}}/films?order=-duration
+
+### PATCH a film
+PATCH {{baseUrl}}/films/1
+Content-Type: application/json
+
+{
+    "title": "The Lord of the Rings: The Fellowship of the Ring"
+}
+
+### PATCH a film with a wrong element
+PATCH {{baseUrl}}/films/1
+Content-Type: application/json
+
+{
+    "wrong": "The Lord of the Rings: The Fellowship of the Ring"
+}
+
+### PUT an existing film
+PUT {{baseUrl}}/films/1
+Content-Type: application/json
+
+{
+    "duration": 178
+}
+
+### PUT a new film
+PUT {{baseUrl}}/films/4
+Content-Type: application/json
+
+{
+    "title": "The Lord of the Rings: The Fellowship of the Ring",
+    "director": "Peter Jackson",
+    "duration": 178,
+    "budget": 93000000,
+    "description": "A meek Hobbit from the Shire and eight companions set out on a journey to destroy the powerful One Ring and save Middle-earth from the Dark Lord Sauron.",
+    "imageUrl": "https://www.imdb.com/title/tt0120737/mediaviewer/rm4263220224"
+}
