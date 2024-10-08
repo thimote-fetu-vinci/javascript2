@@ -1,0 +1,31 @@
+@baseURL = http://localhost:3000
+
+### Get all texts
+GET {{baseURL}}/texts
+
+### Get text by level
+GET {{baseURL}}/texts?level=hard
+
+### Get text by id
+GET {{baseURL}}/texts/cd65ef50-fdb9-45aa-9c63-fa5540060cd8
+
+### Create text
+POST {{baseURL}}/texts
+Content-Type: application/json
+
+{
+    "content": "This is a hard text",
+    "level": "easy"
+}
+
+### Delete text
+DELETE {{baseURL}}/texts/2532c014-7cf9-4498-a5fa-b46d39321c40
+
+### Update text
+PUT {{baseURL}}/texts/fdc44b51-16c8-4336-9d25-a5f8a5fd03ea
+Content-Type: application/json
+
+{
+    "content": "This is a hard text",
+    "level": "hard"
+}
