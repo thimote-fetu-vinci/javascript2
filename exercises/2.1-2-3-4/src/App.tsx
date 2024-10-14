@@ -1,14 +1,12 @@
-interface HeaderProps {
+interface Movie {
 	title: string;
-}
-
-const Header = (props: HeaderProps) => {
-	return <h1>{props.title}</h1>;
-}
+	director: string;
+};
 
 interface CinemaProps {
 	name: string;
-	movies: { title: string; director: string }[];
+	movie1: Movie;
+	movie2: Movie;
 }
 
 const Cinema = (props: CinemaProps) => {
@@ -16,48 +14,55 @@ const Cinema = (props: CinemaProps) => {
 		<div>
 			<h2>{props.name}</h2>
 			<ul>
-				{props.movies.map((movie) => (
-					<li>
-						<strong>{movie.title}</strong> - Réalisateur : {movie.director}
-					</li>
-				))}
+				<li><strong>{props.movie1.title}</strong> - Réalisateur : {props.movie1.director}</li>
+				<li><strong>{props.movie2.title}</strong> - Réalisateur : {props.movie2.director}</li>
 			</ul>
 		</div>
-	)
+	);
 }
+
+interface PageTitleProps {
+	title: string;
+}
+
+const PageTitle = (props: PageTitleProps) => {
+	return <h1>{props.title}</h1>;
+};
 
 const App = () => {
 	const pageTitle = "Informations sur les films dans les cinémas";
 
 	const cinema1Name = "UGC DeBrouckère";
-	const cinema1Movie1Title = "Film 1 - DeBrouckère";
-	const cinema1Movie1Director = "Director A";
-	const cinema1Movie2Title = "Film 2 - DeBrouckère";
-	const cinema1Movie2Director = "Director B";
+
+	const movie1 = {
+		title: "HAIKYU-THE DUMPSTER BATTLE",
+		director: "Susumu Mitsunaka",
+	};
+	const movie2 = {
+		title: "GOODBYE JULIA ",
+		director: "Mohamed Kordofani",
+	};
 
 	const cinema2Name = "UGC Toison d'Or";
-	const cinema2Movie1Title = "Film 1 - Toison d'Or";
-	const cinema2Movie1Director = "Director C";
-	const cinema2Movie2Title = "Film 2 - Toison d'Or";
-	const cinema2Movie2Director = "Director D";
+	const movie3 = {
+		title: "THE WATCHERS",
+		director: "Ishana Night Shyamalan",
+	};
+	const movie4 = {
+		title: "BAD BOYS: RIDE OR DIE",
+		director: "Adil El Arbi, Bilall Fallah",
+	};
 
 	return (
 		<div>
-			<Header title={pageTitle} />
-			<Cinema
-				name={cinema1Name}
-				movies={[
-					{ title: cinema1Movie1Title, director: cinema1Movie1Director },
-					{ title: cinema1Movie2Title, director: cinema1Movie2Director },
-				]}></Cinema>
-			<Cinema
-				name={cinema2Name}
-				movies={[
-					{ title: cinema2Movie1Title, director: cinema2Movie1Director },
-					{ title: cinema2Movie2Title, director: cinema2Movie2Director },
-				]}></Cinema>
+			<PageTitle title={pageTitle} />
+
+			<Cinema name={cinema1Name} movie1={movie1} movie2={movie2} />
+
+			<Cinema name={cinema2Name} movie1={movie3} movie2={movie4} />
 		</div>
 	);
 };
+
 
 export default App;
