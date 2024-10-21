@@ -1,0 +1,26 @@
+.card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+}
+
+.card h4 {
+    margin: 0 0 8px 0;
+    color: #333;
+}
+
+.card p {
+    margin: 0 0 8px 0;
+    color: #666;
+}
+
+.card p.online {
+    color: green;
+}
+
+.card p.offline {
+    color: red;
+}
