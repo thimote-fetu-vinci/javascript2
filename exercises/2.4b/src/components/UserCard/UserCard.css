@@ -1,0 +1,23 @@
+.user-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 200px;
+  max-height: 200px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-card :where(h2, p) {
+  margin: 8px;
+}
+
+.user-card--online {
+  color: green;
+}
+
+.user-card--offline {
+  color: red;
+}
