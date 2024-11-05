@@ -1,23 +1,20 @@
-import { ReactElement } from "react";
-import Movie from "../Movie";
-
+import { Movie } from "../../types";
+import MovieItem from "../Movie";
 
 interface CinemaProps {
 	name: string;
-	children: ReactElement<typeof Movie>[];
+	movies: Movie[];
 }
 
-const Cinema = (props: CinemaProps) => {
-	return (
-		<div>
-			<h2>{props.name}</h2>
-			<ul>
-				{props.children.map(({title, director, description}) => (
-					<Movie title={title} director={director} description={description}/>
-				))}
-			</ul>
-		</div>
-	);
-}
+const Cinema = (props: CinemaProps) => (
+	<div>
+		<h2>{props.name}</h2>
+		<ul>
+			{props.movies.map((movie) => (
+				<MovieItem key={movie.title} movie={movie} />
+			))}
+		</ul>
+	</div>
+);
 
 export default Cinema;

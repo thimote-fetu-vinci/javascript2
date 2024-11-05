@@ -1,15 +1,20 @@
-interface MovieProps {
-    title: string;
-    director: string;
-    description: string;
-};
+import { useState } from "react";
+import { Movie } from "../../types";
 
-const Movie = (props: MovieProps) => {
-    return (
-        <li key={props.title}>
-            <strong>{props.title}</strong> - {props.director} : {props.description}
-        </li>
-    )
+interface MovieItemProps {
+    movie: Movie;
 }
 
-export default Movie;
+const MovieItem = ({ movie }: MovieItemProps) => {
+    const [descriptionVisible, setDescriptionVisible] = useState(false);
+    return (
+        <li onClick={() => setDescriptionVisible(!descriptionVisible)}>
+            <p>
+                <strong>{movie.title}</strong> - Réalisateur : {movie.director}
+            </p>
+            <p>{descriptionVisible ? <i>{movie.description}</i> : null}</p>
+        </li>
+    );
+};
+
+export default MovieItem;
