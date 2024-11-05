@@ -1,13 +1,15 @@
-import UserCard from "../UserCard/UserCard";
-import "./App.css";
+import Header from "../Header";
+import Main from "../Main";
+import Footer from "../Footer";
 
-const App = () => (
-  <div>
-    <UserCard name="John Doe" age={25} isOnline={true} />
-    <UserCard name="Jane Doe" age={22} isOnline={false} />
-    <UserCard name="Foo Bar" age={30} isOnline={true} />
-  </div>
-);
-
+const App = () => {
+  return (
+    <div>
+      <Header title="Informations utilisateurs" />
+      <Main />
+      <Footer content="© 2024" />
+    </div>
+  )
+}
 
 export default App;
