@@ -1,10 +1,5 @@
 import "./PizzaMenu.css";
-
-interface Pizza {
-    id: number;
-    title: string;
-    content: string;
-}
+import { Pizza } from "../../types";
 
 interface PizzaMenuProps {
     pizzas: Pizza[];
