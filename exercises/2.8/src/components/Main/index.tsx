@@ -47,7 +47,7 @@ const Main = () => {
 
     return (
         <main>
-            <Header title="My HomePage" version={1} audioRef={audioRef} />
+            <Header title="We love Pizza" version={1} audioRef={audioRef} />
             <p>
                 Because we love JS, you can also click on the header to stop / start the
                 music ; )
