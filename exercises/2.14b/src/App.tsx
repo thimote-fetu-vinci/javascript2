@@ -16,7 +16,6 @@ function App() {
             <RandomDog method={handleClick}/>
             <RandomDog method={handleClick}/>
         </div>
-        <button onClick={handleClick}>Refresh</button>
     </div>
   );
 }

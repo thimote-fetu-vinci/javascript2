@@ -25,6 +25,9 @@ function RandomDog(methode: () => void) {
     };
 
     fetchDog();
+    const interval = setInterval(fetchDog, 5000);
+
+    return () => clearInterval(interval);
   }, [methode]);
 
   return (
