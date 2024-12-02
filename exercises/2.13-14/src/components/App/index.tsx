@@ -25,11 +25,18 @@ function App() {
       });
   }, [newJoke]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNewJoke((prev) => !prev);
+    }, 10000);
+
+    return () => clearInterval(interval);
+  });
+
   return (
     <>
       <h4>Category : {data.category}</h4>
       <p>{data.joke}</p>
-      <button onClick={() => setNewJoke(prev => !prev)}>Get a Joke</button>
     </>
   );
 };
